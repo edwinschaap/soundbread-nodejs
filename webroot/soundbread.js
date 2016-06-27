@@ -1,3 +1,5 @@
+var socket;
+
 function soundLoaded(event) {
   // Sound is loaded, show button
   var div = document.getElementById(event.id);
@@ -30,12 +32,11 @@ function init()
 {
   var preload;
   var client_version;
-  var keycodes = $("1234567890QWERTYUIOPASDFGHJKLZXCVBNM".split('')).map(function(i, c) { return c.charCodeAt(0); }).get();
 
   var maxcredits = 5;
   $('#credits').attr('aria-valuemax', maxcredits);
 
-  var socket = io(clientSettings.wsuri);
+  socket = io(clientSettings.wsuri);
 
   if (!createjs.Sound.initializeDefaultPlugins()) {
     document.getElementById("error").style.display = "block";
@@ -56,36 +57,6 @@ function init()
 
   createjs.Sound.addEventListener("fileload", createjs.proxy(soundLoaded, this));
   createjs.Sound.registerSounds(sounds, assetsPath);
-
-  $(sounds).each(function(i, sound) {
-    var keycode = keycodes[i];
-
-    var labeldiv = $('<div>');
-    labeldiv.attr('class', 'label');
-    labeldiv.append(sound.title);
-
-    var sounddiv = $('<div>');
-    sounddiv.attr('id', sound.id);
-    sounddiv.attr('style', 'background-image:url(img/' + sound.img + ')');
-    sounddiv.attr('class', 'soundItem gridBox');
-    sounddiv.attr('data-keycode', keycode);
-    sounddiv.append(labeldiv);
-    $('#content').append(sounddiv);
-
-    var hintkey = String.fromCharCode(keycode);
-    var hintdiv = $('<div class="keyhint">' + hintkey + '</div>');
-    hintdiv.hide();
-    sounddiv.append(hintdiv);
-
-    sounddiv.click(function() {
-      var self = this;
-      var id = $(self).attr('id');
-      console.log("< " + id);
-
-      socket.emit('play',id);
-    });
-
-  });
 
   // Simple keybinding
   $(document).keydown(function(e){

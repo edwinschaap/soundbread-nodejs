@@ -4,9 +4,11 @@
   "description": "Soundbread NodeJS",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "npm run watch & ./node_modules/.bin/nodemon server.js",
     "jshint": "jshint -c .jshintrc --exclude-path .jshintignore .",
-    "test": "npm run jshint"
+    "test": "npm run jshint",
+    "watch": "./node_modules/.bin/watchify --debug --extension=.jsx -t [ babelify --presets [ react ] ] src/main.jsx -o webroot/app.js -v",
+    "build": "./node_modules/.bin/browserify --extension=.jsx -t [ babelify --presets [ react ] ] src/main.jsx -o webroot/app.js"
   },
   "pre-commit": "jshint",
   "repository": {
@@ -21,11 +23,17 @@
   "dependencies": {
     "cors": "^2.7.1",
     "express": "^4.13.4",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
     "socket.io": "^1.4.6",
     "ws": "^1.1.0"
   },
   "devDependencies": {
+    "babel-preset-react": "^6.5.0",
+    "babelify": "^7.3.0",
+    "browserify": "^13.0.1",
     "jshint": "~2.9.2",
-    "pre-commit": "~1.1.3"
+    "pre-commit": "~1.1.3",
+    "watchify": "^3.7.0"
   }
 }

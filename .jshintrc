@@ -3,7 +3,8 @@
   "laxbreak"      : true,
   "bitwise"       : true,
   "boss"          : false,
-  "browser"	  : true,
+  "browser"	      : true,
+  "browserify"    : true,
   "curly"         : true,
   "eqeqeq"        : true,
   "eqnull"        : false,
@@ -32,5 +33,5 @@
               "clientSettings" : false,
               "createjs"       : false,
               "preload"        : false
-  } 
+  }
 }
